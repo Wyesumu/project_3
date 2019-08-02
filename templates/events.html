@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block title %}Мероприятия{% endblock %}
+{% block content %}
+  <div class="row">
+    <h1>Ближайшие мероприятия:</h1>
+  </div>
+ 	{%for post in posts%}
+  <div class="row card shadow border-0" style="margin-bottom: 1%">
+    <div class="col" style="padding-top: 1%">
+      <h2>{{post.title}}</h2>
+      <p>{{post.description}}</p>
+      <p><a class="btn btn-secondary" href="/event/{{post.id}}" role="button">Читать далее &raquo;</a></p>
+    </div>
+  </div>
+  {%endfor%}
+
+{% endblock %}

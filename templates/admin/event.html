@@ -1,0 +1,106 @@
+{% extends 'admin/model/edit.html' %}
+
+{% block edit_form %}
+
+<form action="" method="POST" role="form" class="admin-form form-horizontal" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="title" class="col-md-2 control-label">Заголовок
+        &nbsp;
+    </label>
+    <div class="col-md-10">
+      <input class="form-control" id="title" name="title" type="text" value="{{title}}">
+    </div> 
+  </div>
+  <div class="form-group">
+    <label for="description" class="col-md-2 control-label">Краткое описание события (не более 200 символов)
+        &nbsp;
+    </label>
+    <div class="col-md-10">
+      <input class="form-control" id="description" name="description" type="text" value="{{description}}">  
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="text" class="col-md-2 control-label">Текст события
+        &nbsp;
+    </label>
+    <div class="col-md-10">
+      <textarea class="form-control ckeditor" id="text" name="text">{{text}}</textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="on_main" class="col-md-2 control-label">Поместить на главную
+        &nbsp;
+    </label>
+    <div class="col-md-10">
+      <input {%if on_main == True%}checked{%endif%} class="form-control" id="on_main" name="on_main" type="checkbox" value="y">
+    </div>
+  </div>
+  <div class="row">
+  	<label class="col-md-2 control-label">Города
+  	  &nbsp;
+  	</label>
+  </div>
+  	<div class="field_wrapper">
+  		{% for city in cities %}
+    	<div class="row">
+    		<label for="city_name" class="col-md-2 control-label">&nbsp;</label>
+    		<div class="col-md-2">Город:<input class="form-control" type="text" name="city_name" value="{{city.name}}"></div>
+    		<div class="col-md-2">Адрес:<input class="form-control" type="text" name="city_addr" value="{{city.addr}}"></div>
+    		<div class="col-md-2">Время начала:<input class="form-control dp" type="text" name="city_date_start" id="dp" onclick="javascript:void(0);" value="{{city.date_start}}"></div>
+    		<div class="col-md-2">Время конца:<input class="form-control dp" type="text" name="city_date_end" id="dp" onclick="javascript:void(0);" value="{{city.date_end}}"></div>
+        <div class="col-md-1">&nbsp;<a href="../user_list?id={{city.id}}" class="btn btn-success">Участники</a></div>
+    		<div class="col-md-1"><a href="javascript:void(0);" class="remove_button btn btn-warning" style="margin-top:30%;" title="Удалить строку">–</a></div>
+    	</div>
+    {% endfor %}
+    </div>
+  <div class="row col">
+  	<a href="javascript:void(0);" class="add_button btn btn-primary">Добавить город</a>
+  </div>
+  <hr>
+  <div class="form-group">
+  	<div class="col-md-offset-2 col-md-10 submit-row">
+      <input type="submit" class="btn btn-primary" value="Сохранить">
+      <a href="/admin/event/" class="btn btn-danger" role="button">Отмена</a>
+    </div>
+  </div>
+</form>
+
+{% endblock %}
+
+{% block tail %}
+	<script src="/static/jquery-3.4.1.min.js" type="text/javascript"></script>
+  <script src="/static/gijgo.min.js" type="text/javascript"></script>
+ 	<link href="/static/gijgo.min.css" rel="stylesheet" type="text/css">
+  {{ super() }}
+  <script src="/static/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var maxField = 10; //Input fields increment limitation
+      var addButton = $('.add_button'); //Add button selector
+      var wrapper = $('.field_wrapper'); //Input field wrapper
+      var x = 0; //Initial field counter is 1
+    
+      //Once add button is clicked
+      $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append('<div class="row"><label for="city_name" class="col-md-2 control-label">&nbsp;</label><div class="col-md-2">Город:<input class="form-control" type="text" name="city_name"></div><div class="col-md-2">Адрес:<input class="form-control" type="text" name="city_addr"></div><div class="col-md-2">Время начала:<input class="form-control dp" type="text" name="city_date_start" id="dp" onclick="javascript:void(0);"></div><div class="col-md-2">Время конца:<input class="form-control dp" type="text" name="city_date_end" id="dp" onclick="javascript:void(0);"></div><div class="col-md-1"><a href="javascript:void(0);" class="remove_button btn btn-warning" style="margin-top:30%;" title="Удалить строку">–</a></div></div>'); //Add field html
+        }
+      });
+
+      $(wrapper).on('click', '.dp', function(e){
+        e.preventDefault();
+        $(this).datetimepicker({ footer: true, modal: true, format: 'yyyy-mm-dd HH:MM:SS', uiLibrary: 'bootstrap' }).open();
+      });
+
+      //Once remove button is clicked
+      $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+      });
+    });
+	</script>
+    
+{% endblock %}

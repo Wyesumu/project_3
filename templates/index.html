@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+	{% if on_main%}
+  <div class="jumbotron">
+    <h1><a href="/event/{{on_main.id}}">{{on_main.title}}</a></h1>
+    <p>{{on_main.description}}</p>
+  </div>
+  {%endif%}
+  <div class="row">
+  	<h1>Последние новости:</h1>
+  </div>
+ 	{%for post in posts%}
+  <div class="row card shadow border-0" style="margin-bottom: 1%">
+    <div class="col" style="padding-top: 1%">
+      <h2>{{post.title}}</h2>
+      <p>{{post.description}}</p>
+      <p><a class="btn btn-secondary" href="/news/{{post.id}}" role="button">Читать далее &raquo;</a></p>
+    </div>
+  </div>
+  {%endfor%}
+
+{% endblock %}

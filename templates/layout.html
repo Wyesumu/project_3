@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>{% block title %}{% endblock %}</title>
+      <link rel="stylesheet" href="/static/bootstrap.css">
+      <link rel="stylesheet" href="/static/styles.css">
+      <link href="/static/offcanvas.css" rel="stylesheet">
+      {% block header %}{% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <!--<a class="navbar-brand" href="/">Название</a>-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item {%if request.path == '/'%}active{%endif%}">
+            <a class="nav-link" href="/">Главная<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item {%if request.path == '/events'%}active{%endif%}">
+            <a class="nav-link" href="/events">Мероприятия</a>
+          </li>
+          <li class="nav-item {%if request.path == '/calendar'%}active{%endif%}">
+            <a class="nav-link" href="/calendar">Календарь</a>
+          </li>
+          <!--
+          <li class="nav-item dropdown {%if request.path == '/drop'%}active{%endif%}">
+            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Выпадающее меню</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#">Действие</a>
+              <a class="dropdown-item" href="#">Другое действие</a>
+              <a class="dropdown-item" href="#">Ссылка</a>
+            </div>
+          </li>-->
+        </ul>
+      <form class="form-inline mt-2 mt-md-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+    		{{message}}
+       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+    </div>
+    {%endfor%}
+    <div class="container-fluid h-100">
+      <div class="row h-100">
+        <div class="col-md-2 order-md-1" id="sidebar">
+          <div class="card border-0 shadow mb-4 d-none d-block">
+            <div class="card-body">
+              {%if username %}
+              <h5>{{username}}</h5>
+              <a href="/profile/{{username}}" class="btn btn-block btn-primary">Мой профиль</a>
+              <a href="/logout" class="btn btn-block btn-danger">Выйти</a>
+              {%else%}
+              <h5>Авторизация</h5>
+              <a href="/login" class="btn btn-block btn-primary">Войти</a>
+              <a href="/register" class="btn btn-block btn-primary">Регистрация</a>
+              {%endif%}
+            </div>
+          </div>
+        </div><!--/span-->
+        <div class="col-md-8 order-last">
+          {% block content %}{% endblock %}
+          <div class="row col footer">
+            <hr class="w-100">
+            <p>&copy; Компания 2019</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src = "/static/jquery-3.4.1.min.js"> </script>
+  <script src = "/static/bootstrap.js"> </script>
+  {% block footer %} {% endblock %}
+</html>

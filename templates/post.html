@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block title %}{{post.title}}{% endblock %}
+{% block content %}
+
+  <div class="row card border-0">
+    <div class="col">
+      <h2>{{post.title}}</h2>
+      <hr>
+      	{{post.text|safe}}
+      	<h3>Запись на мероприятие:</h3>
+        {%for city in cities%}
+        	<div class="row" style="border-bottom: 2px #f2f2f2 solid;">
+        		<div class="col" style="border-right: 2px #f2f2f2 solid; text-align: center">
+          		<h3>{{city.name}}</h3>
+          		{{city.name}}, {{city.addr}}
+          	</div>
+          	<div class="col" style="border-right: 2px #f2f2f2 solid; text-align: center">
+          		<h3>Когда:</h3>
+          		с {{city.date_start|datetime_ru('%d %B %Y %H:%M')}} по {{city.date_end|datetime_ru('%d %B %Y %H:%M')}}
+          	</div>
+          	<div class="col">
+          		<a href="/event/register/{{city.id}}" type="button" name="check_in" class="btn btn-success">Зарегистрироваться</a>
+          	</div>
+          </div>
+        {%endfor%}
+    </div>
+  </div>
+
+{% endblock %}
