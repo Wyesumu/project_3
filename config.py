@@ -3,7 +3,7 @@ db_host = "localhost" #database file storage
 db_user ="site"
 db_pass = "password"
 host = "0.0.0.0" #0.0.0.0 to allow outside connection
-port = "80"
+port = "3600"
 secret_key = b'GJdvU3_%d!w7Nw#$d' #used to crypt session stored in cookies
 
 UPLOAD_FOLDER = './images'
